@@ -8,6 +8,10 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
+# Import after data_transformation and utils 
+from src.components.data_transformation import DataTransformation
+from src.components.data_transformation import DataTransformationConfig
+
 # Define a dataclass to hold the data ingestion configuration. 
 # It's essentially a container for holding configuration data.
 # it is responsible for holding the configuration details such as file paths for training data, testing data, and raw data
@@ -67,6 +71,19 @@ class DataIngestion:
             # Raise a custom exception.
             raise CustomException(e, sys)
         
+# if __name__=="__main__":
+#     obj = DataIngestion()
+#     obj.initiate_data_ingestion()
+
+
+# After data transformation and utils 
+# We have combined data transformation and data ingestion
+# when the script is run directly, it performs data ingestion and transformation operations 
 if __name__=="__main__":
-    obj = DataIngestion()
-    obj.initiate_data_ingestion()
+    obj = DataIngestion() # creates an instance of the DataIngestion class, which is responsible for data ingestion operations.
+    train_data, test_data =  obj.initiate_data_ingestion() # This line calls the initiate_data_ingestion() method of the DataIngestion.
+
+    data_transformation = DataTransformation() # Creates an instance of the DataTransformation class, responsible for data transformation operations.
+    data_transformation.initiate_data_transformation(train_data, test_data) # This method initiates the data transformation process
+
+    
