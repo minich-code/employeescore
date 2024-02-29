@@ -12,6 +12,10 @@ from dataclasses import dataclass
 from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
 
+# Import after model trainer 
+from src.components.model_trainer import ModelTrainerConfig
+from src.components.model_trainer import ModelTrainer
+
 # Define a dataclass to hold the data ingestion configuration. 
 # It's essentially a container for holding configuration data.
 # it is responsible for holding the configuration details such as file paths for training data, testing data, and raw data
@@ -77,13 +81,26 @@ class DataIngestion:
 
 
 # After data transformation and utils 
+
 # We have combined data transformation and data ingestion
 # when the script is run directly, it performs data ingestion and transformation operations 
-if __name__=="__main__":
-    obj = DataIngestion() # creates an instance of the DataIngestion class, which is responsible for data ingestion operations.
-    train_data, test_data =  obj.initiate_data_ingestion() # This line calls the initiate_data_ingestion() method of the DataIngestion.
+# if __name__=="__main__":
+#     obj = DataIngestion() # creates an instance of the DataIngestion class, which is responsible for data ingestion operations.
+#     train_data, test_data =  obj.initiate_data_ingestion() # This line calls the initiate_data_ingestion() method of the DataIngestion.
 
-    data_transformation = DataTransformation() # Creates an instance of the DataTransformation class, responsible for data transformation operations.
-    data_transformation.initiate_data_transformation(train_data, test_data) # This method initiates the data transformation process
+#     data_transformation = DataTransformation() # Creates an instance of the DataTransformation class, responsible for data transformation operations.
+#     data_transformation.initiate_data_transformation(train_data, test_data) # This method initiates the data transformation process
+
+
+# After model trainer 
+if __name__=="__main__":
+    obj = DataIngestion() 
+    train_data, test_data =  obj.initiate_data_ingestion() 
+
+    data_transformation = DataTransformation() 
+    train_arr, test_arr, _ = data_transformation.initiate_data_transformation(train_data, test_data) 
+
+    model_trainer = ModelTrainer()
+    print(model_trainer.initiate_model_trainer(train_arr, test_arr))
 
     
